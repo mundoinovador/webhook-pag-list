@@ -16,20 +16,30 @@ export async function receberPedido(req: Request, res: Response) {
       });
     }
 
-    // Gera número do pedido com 4 dígitos
-    const pedidoId = String(Math.floor(1000 + Math.random() * 9000));
-
-    await db
+    const pedidosRef = db
       .collection("clientes")
       .doc(clienteId)
-      .collection("pedidos")
-      .doc(pedidoId)
-      .set({
-        ...pedido,
-        numeroPedido: pedidoId,
-        status: "novo",
-        criadoEm: new Date(),
-      });
+      .collection("pedidos");
+
+    let pedidoId = "";
+
+    // Gera um número de 4 dígitos que ainda não exista
+    while (true) {
+      pedidoId = String(Math.floor(1000 + Math.random() * 9000));
+
+      const existente = await pedidosRef.doc(pedidoId).get();
+
+      if (!existente.exists) {
+        break;
+      }
+    }
+
+    await pedidosRef.doc(pedidoId).set({
+      ...pedido,
+      numeroPedido: pedidoId,
+      status: "novo",
+      criadoEm: new Date(),
+    });
 
     return res.status(200).json({
       sucesso: true,
