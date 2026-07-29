@@ -10,6 +10,22 @@ import pedidosRouter from "./routes/pedidos";
 
 const app = express();
 
+import cors from "cors";
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:4321",
+      "http://localhost:3000",
+      "https://seu-dominio.com",
+    ],
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type"],
+  }),
+);
+
+app.options("*", cors());
+
 app.use(
   express.json({
     type: "application/json",
