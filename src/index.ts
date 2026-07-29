@@ -14,12 +14,8 @@ import cors from "cors";
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:4321",
-      "http://localhost:3000",
-      "https://seu-dominio.com",
-    ],
-    methods: ["GET", "POST", "OPTIONS"],
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type"],
   }),
 );
