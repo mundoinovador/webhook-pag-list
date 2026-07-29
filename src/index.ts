@@ -10,7 +10,11 @@ import pedidosRouter from "./routes/pedidos";
 
 const app = express();
 
-app.use(express.json());
+app.use(
+  express.json({
+    type: "application/json",
+  }),
+);
 
 app.get("/", (_, res) => {
   res.send("Webhook online");
