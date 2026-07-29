@@ -16,18 +16,24 @@ export async function receberPedido(req: Request, res: Response) {
       });
     }
 
+    // Gera número do pedido com 4 dígitos
+    const pedidoId = String(Math.floor(1000 + Math.random() * 9000));
+
     await db
       .collection("clientes")
       .doc(clienteId)
       .collection("pedidos")
-      .add({
+      .doc(pedidoId)
+      .set({
         ...pedido,
+        numeroPedido: pedidoId,
         status: "novo",
         criadoEm: new Date(),
       });
 
     return res.status(200).json({
       sucesso: true,
+      pedidoId,
     });
   } catch (error) {
     console.error("Erro ao salvar pedido:", error);
