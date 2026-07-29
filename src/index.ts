@@ -3,14 +3,12 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import express from "express";
+import cors from "cors";
 
 import "./firebase";
-
 import pedidosRouter from "./routes/pedidos";
 
 const app = express();
-
-import cors from "cors";
 
 app.use(
   cors({
@@ -19,8 +17,6 @@ app.use(
     allowedHeaders: ["Content-Type"],
   }),
 );
-
-app.options("*", cors());
 
 app.use(
   express.json({
